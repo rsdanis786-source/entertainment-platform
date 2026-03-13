@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Entertainment Platform - Browse</title>
+    <style>
+        /* Basic styling */
+        body { font-family: Arial, sans-serif; }
+        .filter { margin-bottom: 20px; }
+        .content-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
+        .movie { border: 1px solid #ccc; padding: 10px; }
+    </style>
+</head>
+<body>
+
+<h1>Browse Movies</h1>
+
+<div class="filter">
+    <label for="category">Category:</label>
+    <select id="category">
+        <option value="all">All</option>
+        <option value="action">Action</option>
+        <option value="comedy">Comedy</option>
+    </select>
+    
+    <label for="genre">Genre:</label>
+    <select id="genre">
+        <option value="all">All</option>
+        <option value="drama">Drama</option>
+        <option value="horror">Horror</option>
+    </select>
+    
+    <button id="searchBtn">Search</button>
+</div>
+
+<div class="content-grid" id="contentGrid">
+    <!-- Dynamic content will be rendered here -->
+</div>
+
+<script>
+    // Sample data
+    const movies = [
+        { title: 'Movie 1', category: 'action', genre: 'drama', rating: 5 },
+        { title: 'Movie 2', category: 'comedy', genre: 'horror', rating: 4 },
+        // More movies...
+    ];
+
+    function renderMovies(filter = { category: 'all', genre: 'all' }) {
+        const grid = document.getElementById('contentGrid');
+        grid.innerHTML = '';
+
+        const filteredMovies = movies.filter(movie => 
+            (filter.category === 'all' || movie.category === filter.category) &&
+            (filter.genre === 'all' || movie.genre === filter.genre)
+        );
+
+        filteredMovies.forEach(movie => {
+            const movieDiv = document.createElement('div');
+            movieDiv.classList.add('movie');
+            movieDiv.innerHTML = `<h3>${movie.title}</h3><p>Rating: ${movie.rating}</p>`;
+            grid.appendChild(movieDiv);
+        });
+    }
+
+    document.getElementById('searchBtn').addEventListener('click', () => {
+        const category = document.getElementById('category').value;
+        const genre = document.getElementById('genre').value;
+        renderMovies({ category, genre });
+    });
+
+    // Initial render
+    renderMovies();
+</script>
+
+</body>
+</html>
